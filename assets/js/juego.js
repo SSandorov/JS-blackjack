@@ -18,7 +18,10 @@ const tipos = ['C', 'D', 'H', 'S'];
 const especiales = ['A', 'J', 'Q', 'K'];
 
 /*
-Creamos una función que nos crea una baraja de cartas completa
+Creamos una función que nos crea una baraja de cartas completa y las 
+barajea aleatoriamente
+Para barajear aleatoriamente emplearemos una librería de teceros muy famosa
+llamada underscore
 */
 const crearDeck = () => {
     // Bucle que nos crea las cartas del 2 al 10
@@ -33,7 +36,7 @@ const crearDeck = () => {
             deck.push(tipo + especial);
         }
     }
-    console.log(deck);
+    // console.log(deck);
     // Empleamos la librería underscore para barajar las cartas
     deck = _.shuffle(deck);
     console.log(deck);
@@ -41,3 +44,24 @@ const crearDeck = () => {
 }
 
 crearDeck();
+
+/*
+Creamos una función que nos sacará una carta de la baraja mezclada
+Esta carta tendrá que extraerse del arreglo deck, ya que una vez sacada
+la carta ya no se puede emplear de nuevo
+Hay que tener en cuenta que cuando no queden cartas en la baraja ya no se
+pueden extraer más cartas
+*/
+
+const pedirCarta = () => {
+    if (deck.length === 0) {
+        throw 'No hay cartas en el deck';
+    }
+    const carta = deck.pop();
+    console.log(carta);
+    return carta;
+}
+// Comprobamos el condicional
+// deck = [];
+pedirCarta();
+console.log(deck);
