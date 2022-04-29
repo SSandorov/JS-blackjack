@@ -142,6 +142,38 @@ const valor = valorCarta(pedirCarta());
 // console.log({valor});
 
 // Eventos
+
+// Creamos las funciones para el ordenador
+
+const turnoOrdenador = (puntosMinimos) => {
+    // Como siempre sacará una carta por lo menos, el bucle do-while es el que debemos empelar
+    do {
+        // En principio deberíamos tener una función por separado que englobe el uso de
+        // mostrar las cartas y sumar en el contador, pero bueno, ahora duplicaremos el código
+        const carta = pedirCarta();
+        puntosOrdenador = puntosOrdenador + valorCarta(carta);
+        sumaCartas[1].innerText = puntosOrdenador;
+
+        const imgCarta = document.createElement('img');
+        imgCarta.src =`assets/cartas/${carta}.png`;
+        imgCarta.classList.add('carta');
+        mostrarCartasOrdenador.append(imgCarta);
+        console.log(imgCarta);
+        /*
+        En este caso el crupier seguirá sacando cartas mientras sus cartas sean menores
+        que la nuestra y además sea menor de 21
+        */
+
+        // Por seguridad añadimos el condicional de si el jugaro supera 21 ya nos salimos
+        // del do while
+
+        if (puntosMinimos > 21) {
+            break;
+        }
+
+    } while ((puntosOrdenador < puntosMinimos) && (puntosMinimos <= 21));
+}
+
 /*
 Ahora vamos a manipular el DOM, haciendo que cuando cliquemos en el boton
 pedir nos devuelva la carta
@@ -170,4 +202,21 @@ btnPedir.addEventListener('click', () => { // el segundo argumento es conocido c
     // añadimos esa carta al HTML
     mostrarCartasJugador.append(imgCarta);
     console.log(imgCarta);
+
+    // Ahora creamos la lógica del juego
+    // Si el contador supera 21 puntos se pierde y se bloque el botón de pedir carta
+    if (puntosJugador > 21) {
+        console.warn('Lo siento mucho, perdiste la partida');
+        // Bloqueamos el botón de pedir carta
+        btnPedir.disabled = true;
+        // Añadimos la función del ordenador
+        turnoOrdenador(puntosJugador);
+    // Si llegamos a 21 ya no se puede pedir cartas
+    } else if (puntosJugador === 21) {
+        console.warn('Blackjack!');
+        btnPedir.disabled = true;
+        // Aquí también añadimos la función del ordenador
+        turnoOrdenador(puntosJugador);
+    }
 }); 
+
