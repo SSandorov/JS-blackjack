@@ -17,6 +17,23 @@ const tipos = ['C', 'D', 'H', 'S'];
 // Cartas superiores a 10
 const especiales = ['A', 'J', 'Q', 'K'];
 
+// Suma de las cartas del jugador y el ordenador
+let puntosJugador = 0,
+    puntosOrdenador = 0;
+
+// Aquí ponemos las referencias del HTML (manipulación del DOM)
+const btnNuevo = document.querySelector('#btnNuevo');
+const btnPedir = document.querySelector('#btnPedir');
+const btnDetener = document.querySelector('#btnDetener');
+
+// Si algún día quiero mejorar este juego, ya tengo creado el id para los contadores
+const sumaCartas = document.querySelectorAll('small');
+
+const mostrarCartasJugador = document.querySelector('#jugador-cartas');
+const mostrarCartasOrdenador = document.querySelector('#ordenador-cartas');
+
+// console.log(btnDetener, btnNuevo, btnPedir);
+
 /*
 Creamos una función que nos crea una baraja de cartas completa y las 
 barajea aleatoriamente
@@ -33,7 +50,7 @@ const crearDeck = () => {
     // Bucle que nos crea las cartas especiales
     for (let tipo of tipos) {
         for(let especial of especiales) {
-            deck.push(tipo + especial);
+            deck.push(especial + tipo);
         }
     }
     // console.log(deck);
@@ -60,13 +77,13 @@ const pedirCarta = () => {
     }
     // extraemos la última carta de la baraja y la devolvemos
     const carta = deck.pop();
-    console.log(carta);
+    // console.log(carta);
     return carta;
 }
 // Comprobamos el condicional
 // deck = [];
 pedirCarta();
-console.log(deck);
+// console.log(deck);
 
 /*
 Creamos una función que nos compruebe el valor de una carta
@@ -122,4 +139,35 @@ const valorCarta = ( carta ) => {
 }
 // Comprobamos si el valor se cumple en todos los casos
 const valor = valorCarta(pedirCarta());
-console.log({valor});
+// console.log({valor});
+
+// Eventos
+/*
+Ahora vamos a manipular el DOM, haciendo que cuando cliquemos en el boton
+pedir nos devuelva la carta
+*/
+// Para que un elemento espere un evento
+                        // Evento click, hay muchos más
+btnPedir.addEventListener('click', () => { // el segundo argumento es conocido como callback
+    // Pedimos la carta
+    const carta = pedirCarta();
+
+    // Sumamos los puntos
+    puntosJugador = puntosJugador + valorCarta(carta);
+
+    // Añadimos la sumatoria al texto del jugador
+    sumaCartas[0].innerText = puntosJugador;
+
+    // Mostramos las cartas en pantalla
+    // Para ello debemos mostrar en pantalla lo siguiente
+    // <img class="carta" src="assets/cartas/10C.png" alt="cartas-baraja">
+    // Cuando creamos un elemento está guardado en memoria, no se muestra en ningún lado
+    const imgCarta = document.createElement('img');
+    // Ahora añadimos la ubicación de la carta sacada de la baraja
+    imgCarta.src =`assets/cartas/${carta}.png`;
+    // Añadimos la clase para que aplique los estilos
+    imgCarta.classList.add('carta');
+    // añadimos esa carta al HTML
+    mostrarCartasJugador.append(imgCarta);
+    console.log(imgCarta);
+}); 
