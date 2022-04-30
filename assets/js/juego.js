@@ -174,6 +174,7 @@ const turnoOrdenador = (puntosMinimos) => {
     } while ((puntosOrdenador < puntosMinimos) && (puntosMinimos <= 21));
 }
 
+
 /*
 Ahora vamos a manipular el DOM, haciendo que cuando cliquemos en el boton
 pedir nos devuelva la carta
@@ -209,14 +210,34 @@ btnPedir.addEventListener('click', () => { // el segundo argumento es conocido c
         console.warn('Lo siento mucho, perdiste la partida');
         // Bloqueamos el botón de pedir carta
         btnPedir.disabled = true;
+        btnDetener.disabled = true;
         // Añadimos la función del ordenador
         turnoOrdenador(puntosJugador);
     // Si llegamos a 21 ya no se puede pedir cartas
     } else if (puntosJugador === 21) {
         console.warn('Blackjack!');
         btnPedir.disabled = true;
+        btnDetener.disabled = true;
         // Aquí también añadimos la función del ordenador
         turnoOrdenador(puntosJugador);
     }
 }); 
 
+
+// Cuando clicamos en el botón detener, bloqueamos los botones detener y pedir
+// y le toca el turno al ordenador
+btnDetener.addEventListener('click', () => {
+    // Cuando la acción de pinchar en el botón detener se lleva a cabo, bloqueamos
+    // ambos botones
+    btnDetener.disabled = true;
+    btnPedir.disabled = true;
+
+    // Contamos los puntos como en el btnPedir
+    // Pedimos la carta
+    turnoOrdenador(puntosJugador);
+})
+
+// Por último tener el botón de nuevo juego. Cuando lo pinchamos reinicia todo al principio
+btnNuevo.addEventListener('click', () => {
+    
+})
