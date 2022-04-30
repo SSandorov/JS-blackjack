@@ -58,7 +58,7 @@ const crearDeck = () => {
     deck = _.shuffle(deck);
     console.log(deck);
     return deck;
-}
+};
 
 crearDeck();
 
@@ -79,7 +79,7 @@ const pedirCarta = () => {
     const carta = deck.pop();
     // console.log(carta);
     return carta;
-}
+};
 // Comprobamos el condicional
 // deck = [];
 pedirCarta();
@@ -136,7 +136,7 @@ const valorCarta = ( carta ) => {
     return (isNaN(valor)) ?
             (valor === 'A') ? 11 : 10 // condición en caso de que isNan sea true
             : valor * 1;
-}
+};
 // Comprobamos si el valor se cumple en todos los casos
 const valor = valorCarta(pedirCarta());
 // console.log({valor});
@@ -164,7 +164,7 @@ const turnoOrdenador = (puntosMinimos) => {
         que la nuestra y además sea menor de 21
         */
 
-        // Por seguridad añadimos el condicional de si el jugaro supera 21 ya nos salimos
+        // Por seguridad añadimos el condicional de si el jugador supera 21 ya nos salimos
         // del do while
 
         if (puntosMinimos > 21) {
@@ -172,8 +172,22 @@ const turnoOrdenador = (puntosMinimos) => {
         }
 
     } while ((puntosOrdenador < puntosMinimos) && (puntosMinimos <= 21));
-}
 
+    // Como se ejecutan las cosas de manera secuencia, debemos esperar para que este código
+    // se ejecute después de que salgan las imágenes
+
+    setTimeout(() => {
+        if (puntosMinimos === puntosOrdenador) {
+            alert('Empate :)');
+        } else if (puntosMinimos > 21) {
+            alert('Perdiste :(')
+        } else if (puntosOrdenador > 21) {
+            alert('Ganaste!');
+        } else {
+            alert('Ordenador Gana');
+        }
+    }, 500 /*milésimas de segundo */)
+};
 
 /*
 Ahora vamos a manipular el DOM, haciendo que cuando cliquemos en el boton
@@ -207,7 +221,7 @@ btnPedir.addEventListener('click', () => { // el segundo argumento es conocido c
     // Ahora creamos la lógica del juego
     // Si el contador supera 21 puntos se pierde y se bloque el botón de pedir carta
     if (puntosJugador > 21) {
-        console.warn('Lo siento mucho, perdiste la partida');
+        alert('Lo siento mucho, perdiste la partida');
         // Bloqueamos el botón de pedir carta
         btnPedir.disabled = true;
         btnDetener.disabled = true;
@@ -215,7 +229,7 @@ btnPedir.addEventListener('click', () => { // el segundo argumento es conocido c
         turnoOrdenador(puntosJugador);
     // Si llegamos a 21 ya no se puede pedir cartas
     } else if (puntosJugador === 21) {
-        console.warn('Blackjack!');
+        alert('Blackjack!');
         btnPedir.disabled = true;
         btnDetener.disabled = true;
         // Aquí también añadimos la función del ordenador
@@ -235,9 +249,31 @@ btnDetener.addEventListener('click', () => {
     // Contamos los puntos como en el btnPedir
     // Pedimos la carta
     turnoOrdenador(puntosJugador);
-})
+});
 
-// Por último tener el botón de nuevo juego. Cuando lo pinchamos reinicia todo al principio
+// Por último tenemos el botón de nuevo juego. Cuando lo pinchamos reinicia todo al principio
 btnNuevo.addEventListener('click', () => {
-    
-})
+    // reseteamos la consola
+    console.clear();
+
+    // Reseteamos la baraja
+    deck = [];
+    crearDeck();
+    // Reseteamos el contador y quitamos las imágenes
+    sumaCartas[0].innerText = 0;
+    sumaCartas[1].innerText = 0;
+
+    mostrarCartasJugador.innerHTML = '';
+    mostrarCartasOrdenador.innerHTML = '';
+
+    // Reseteamos las puntuaciones
+    puntosJugador = 0;
+    puntosOrdenador = 0;
+
+    // Habilitamos los botones de pedir y detener
+    if(btnDetener.disabled && btnPedir.disabled) {
+        btnDetener.disabled = false;
+        btnPedir.disabled = false;
+    }
+
+});
