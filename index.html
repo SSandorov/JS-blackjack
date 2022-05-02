@@ -15,15 +15,15 @@
     <div class="row mt-2">
         <div  id="divBotones" class="col text-center">
             <button id="btnNuevo" class="btn btn-danger">Nuevo Juego</button>
-            <button id="btnPedir" class="btn btn-primary">Pedir Carta</button>
-            <button id="btnDetener" class="btn btn-primary">Detener</button>
+            <button id="btnPedir" disabled="true" class="btn btn-primary">Pedir Carta</button>
+            <button id="btnDetener" disabled="true" class="btn btn-primary">Detener</button>
         </div>
     </div>
 
     <div class="row container">
         <div class="col">
             <h1>Jugador 1 - <small id="contador-jugador">0</small></h1>
-            <div id="jugador-cartas">
+            <div id="jugador-cartas" class="contenedorCartas">
                 <!-- <img class="carta" src="assets/cartas/10C.png" alt="cartas-baraja">
                 <img class="carta" src="assets/cartas/5C.png" alt="cartas-baraja">
                 <img class="carta" src="assets/cartas/9D.png" alt="cartas-baraja"> -->
@@ -34,7 +34,7 @@
     <div class="row container mt-2">
         <div class="col">
             <h1>Ordenador - <small id="contador-ordenador">0</small></h1>
-            <div id="ordenador-cartas">
+            <div id="ordenador-cartas" class="contenedorCartas">
                 <!-- <img class="carta" src="assets/cartas/10C.png" alt="cartas-baraja">
                 <img class="carta" src="assets/cartas/5C.png" alt="cartas-baraja">
                 <img class="carta" src="assets/cartas/9D.png" alt="cartas-baraja"> -->
@@ -44,5 +44,12 @@
 
     <script src="assets/js/underscore-min.js"></script>
     <script src="assets/js/juego.js"></script>
+    <!-- Inicializamos el juego -->
+    <script>
+        // No deberíamos la manipulación del DOM aquí, pero esta vez lo haremos
+        document.querySelector('#btnNuevo').addEventListener('click', () => {
+            miModulo.nuevoJuego();
+        })
+    </script>
 </body>
 </html>
